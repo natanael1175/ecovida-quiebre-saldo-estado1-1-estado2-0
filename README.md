@@ -1,18 +1,15 @@
-# README.md
-
 ```markdown
-![Python](https://img.shields.io/badge/Python-3.x-blue) ![Jupyter Notebook](https://img.shields.io/badge/Jupyter-Notebook-orange) ![pandas](https://img.shields.io/badge/pandas-2.x-green) ![License](https://img.shields.io/badge/License-MIT-lightgrey)
+![Python 3.x](https://img.shields.io/badge/Python-3.x-blue) ![Jupyter Notebook](https://img.shields.io/badge/Jupyter-Notebook-orange) ![pandas](https://img.shields.io/badge/pandas-DataFrame-green) ![License MIT](https://img.shields.io/badge/License-MIT-lightgrey)
 
 # Análisis de Quiebre de Saldo — Ecovida / Alimentos Claudet
 
-Cuantificación del riesgo operacional y financiero asociado a líneas de pedido sin despachar en el ERP Bsoft durante el período 2021–2025.
-Identifica qué productos, clientes y períodos concentran el mayor valor comprometido para orientar decisiones de abastecimiento y gestión comercial.
+Identificación, cuantificación y priorización de líneas de pedido con saldo pendiente sin despachar (ESTADO1=1, ESTADO2=0) sobre 86.932 transacciones registradas en el ERP Bsoft entre 2021 y 2025, con el objetivo de revelar el riesgo operacional y financiero real que representan los quiebres activos para la operación comercial de Ecovida y Alimentos Claudet.
 
 ---
 
 ## Contexto de Negocio
 
-Ecovida / Alimentos Claudet es una empresa chilena de alimentos que comercializa galletas, biscuits y emparedados bajo dos marcas complementarias, gestionando sus pedidos y despachos a través del ERP Bsoft. El dataset analizado comprende 86.932 transacciones con 46 variables registradas entre el 23 de marzo de 2021 y el 13 de enero de 2025. Un quiebre de saldo ocurre cuando una línea de pedido queda con estado ESTADO1=1 y ESTADO2=0, es decir, el pedido fue ingresado pero el saldo no fue despachado, generando un compromiso financiero pendiente y un riesgo directo sobre el nivel de servicio al cliente. Entender la magnitud, distribución y evolución de estos quiebres es condición necesaria para priorizar acciones correctivas en inventario, logística y relaciones comerciales.
+Ecovida / Alimentos Claudet es una empresa chilena de alimentos que comercializa productos como galletas, biscuits y emparedados a múltiples canales de venta, gestionando su operación de pedidos y despachos a través del ERP Bsoft. Un quiebre de saldo ocurre cuando una línea de pedido queda comprometida (ESTADO1=1) pero no es despachada (ESTADO2=0), generando una brecha entre la demanda registrada y la entrega efectiva al cliente. Este fenómeno compromete el nivel de servicio, expone a la empresa a penalizaciones contractuales y representa un monto en pesos inmovilizado que puede escalar silenciosamente si no se gestiona con datos. El presente análisis convierte ese riesgo difuso en cifras concretas, productos identificados y clientes priorizados, habilitando decisiones operativas y comerciales inmediatas.
 
 ---
 
@@ -21,7 +18,7 @@ Ecovida / Alimentos Claudet es una empresa chilena de alimentos que comercializa
 1. ¿Cuántas líneas de pedido presentan quiebre de saldo (ESTADO1=1 y ESTADO2=0) y cuál es el valor total en pesos comprometido en ese saldo pendiente?
 2. ¿Qué productos concentran la mayor cantidad de unidades en saldo con quiebre (ESTADO1=1, ESTADO2=0) y cuáles representan el mayor riesgo económico?
 3. ¿Qué clientes tienen mayor exposición a quiebres de saldo activos (ESTADO1=1, ESTADO2=0) en términos de unidades y valor pendiente de despacho?
-4. ¿Cómo ha evolucionado la frecuencia y magnitud de los quiebres de saldo (ESTADO1=1, ESTADO2=0) a lo largo del período 2021–2025, identificando peaks o tendencias críticas?
+4. ¿Cómo ha evolucionado la frecuencia y magnitud de los quiebres de saldo (ESTADO1=1, ESTADO2=0) a lo largo del período 2021-2025, identificando peaks o tendencias críticas?
 
 ---
 
@@ -29,24 +26,24 @@ Ecovida / Alimentos Claudet es una empresa chilena de alimentos que comercializa
 
 | # | Sección | Técnica Aplicada | Insight Clave |
 |---|---------|-----------------|---------------|
-| 1 | Contexto de Negocio y Universo de Quiebres de Saldo | Filtrado booleano, agregación, KPIs de volumen y valor | Cuantifica el total de líneas comprometidas y el monto en pesos que representa el riesgo operacional real |
-| 2 | Productos con Mayor Exposición a Quiebres de Saldo | Análisis de Pareto (80/20), ranking por unidades y valor | Un grupo reducido de SKUs concentra la mayoría del valor en quiebre y define la prioridad de abastecimiento |
-| 3 | Clientes con Mayor Exposición a Quiebres Activos | Ranking de clientes, concentración acumulada | Un conjunto acotado de clientes acumula desproporcionadamente el saldo pendiente, exponiendo riesgos contractuales |
-| 4 | Evolución Temporal de Quiebres de Saldo 2021–2025 | Serie temporal mensual, detección de peaks | Determina si el problema es estructural y creciente, estacional o asociado a eventos operacionales puntuales |
-| 5 | Estacionalidad y Patrones de Quiebre por Mes y Año | Heatmap mes x año, análisis de patrones recurrentes | Expone si ciertos meses concentran sistemáticamente más quiebres, habilitando planificación preventiva de inventario |
-| 6 | Síntesis Ejecutiva, Riesgos Priorizados y Recomendaciones | Cruce multidimensional producto-cliente-período | El perfil de riesgo prioritario combina el SKU crítico, el cliente de alto valor y el período de mayor frecuencia de quiebre |
+| 1 | Contexto de Negocio y Universo de Quiebres de Saldo | Filtrado booleano, estadística descriptiva, KPIs agregados | Cuantificación del monto total en pesos comprometido en saldo pendiente sin despachar |
+| 2 | Productos con Mayor Exposición a Quiebres de Saldo | Análisis de concentración (regla 80/20), ranking por unidades y valor | Un conjunto reducido de SKUs concentra la mayoría del riesgo económico y de inventario |
+| 3 | Clientes con Mayor Exposición a Quiebres Activos | Ranking de clientes por saldo pendiente, análisis de valor acumulado | Un grupo acotado de clientes acumula desproporcionadamente el riesgo comercial y contractual |
+| 4 | Evolución Temporal de Quiebres de Saldo 2021-2025 | Serie de tiempo mensual, detección de peaks y tendencias | Determinación de si el quiebre es un problema estructural creciente o asociado a eventos puntuales |
+| 5 | Estacionalidad y Patrones de Quiebre por Mes y Año | Heatmap mes-año, análisis de estacionalidad multianual | Identificación de meses con concentración sistemática de quiebres para planificación preventiva |
+| 6 | Síntesis Ejecutiva, Riesgos Priorizados y Recomendaciones | Cruce producto-cliente-período, scoring de riesgo combinado | El perfil de riesgo prioritario emerge de la intersección entre SKU crítico, cliente de alto valor y período de mayor frecuencia |
 
 ---
 
 ## Stack Técnico
 
-| Herramienta | Uso en este Proyecto |
+| Herramienta | Uso en este proyecto |
 |-------------|---------------------|
-| Python 3.x | Lenguaje base para todo el flujo de análisis |
-| pandas | Carga, limpieza, filtrado booleano y agregaciones del dataset de 86.932 registros |
-| matplotlib | Construcción de gráficos de serie temporal, barras y Pareto |
-| seaborn | Generación del heatmap de estacionalidad mes x año |
-| Jupyter Notebook | Documentación narrativa del análisis, reproducibilidad y presentación de resultados |
+| Python 3.x | Lenguaje base para toda la cadena de análisis |
+| pandas | Carga, limpieza, filtrado y agregación del dataset de 86.932 transacciones |
+| matplotlib | Construcción de series de tiempo y gráficos de barras para análisis evolutivo |
+| seaborn | Generación del heatmap de estacionalidad mes-año y gráficos de distribución |
+| Jupyter Notebook | Entorno de análisis interactivo con narrativa integrada y visualizaciones en línea |
 
 ---
 
@@ -54,8 +51,8 @@ Ecovida / Alimentos Claudet es una empresa chilena de alimentos que comercializa
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/usuario/analisis-quiebre-saldo-ecovida.git
-   cd analisis-quiebre-saldo-ecovida
+   git clone https://github.com/usuario/quiebre-saldo-ecovida.git
+   cd quiebre-saldo-ecovida
    ```
 
 2. Crear y activar un entorno virtual (recomendado):
@@ -65,43 +62,45 @@ Ecovida / Alimentos Claudet es una empresa chilena de alimentos que comercializa
    venv\Scripts\activate           # Windows
    ```
 
-3. Instalar dependencias:
+3. Instalar las dependencias:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Lanzar el notebook:
+4. Iniciar Jupyter Notebook:
    ```bash
-   jupyter notebook notebooks/analisis_quiebre_saldo_ecovida.ipynb
+   jupyter notebook
    ```
 
-5. Ejecutar todas las celdas en orden secuencial. Los gráficos se exportan automáticamente a la carpeta `img/`.
+5. Abrir el archivo principal:
+   ```
+   notebooks/analisis_quiebre_saldo_ecovida.ipynb
+   ```
 
 ---
 
 ## Estructura del Repositorio
 
 ```
-analisis-quiebre-saldo-ecovida/
+quiebre-saldo-ecovida/
 │
 ├── data/
 │   └── raw/
-│       └── ecovida_pedidos_2021_2025.csv       # Dataset original exportado desde Bsoft (no incluido en repo por confidencialidad)
+│       └── quiebre_saldo_ecovida.csv       # Dataset original — 86.932 transacciones, 46 variables
 │
 ├── notebooks/
-│   └── analisis_quiebre_saldo_ecovida.ipynb    # Notebook principal con el análisis completo y narrativa de negocio
+│   └── analisis_quiebre_saldo_ecovida.ipynb  # Notebook principal con las 6 secciones de análisis
 │
 ├── img/
-│   ├── grafico_1.png                           # KPIs del universo de quiebres de saldo
-│   ├── grafico_2.png                           # Pareto de productos por unidades y valor en quiebre
-│   ├── grafico_3.png                           # Ranking de clientes con mayor exposición a quiebres activos
-│   ├── grafico_4.png                           # Serie temporal mensual de quiebres 2021–2025
-│   ├── grafico_5.png                           # Heatmap de estacionalidad mes x año
-│   └── grafico_6.png                           # Síntesis ejecutiva: perfil de riesgo prioritario
+│   ├── grafico_1.png                        # KPIs del universo de quiebres de saldo
+│   ├── grafico_2.png                        # Ranking de productos por exposición (80/20)
+│   ├── grafico_3.png                        # Ranking de clientes por saldo pendiente
+│   ├── grafico_4.png                        # Serie temporal mensual 2021-2025
+│   └── grafico_5.png                        # Heatmap de estacionalidad mes-año
 │
-├── requirements.txt                            # Dependencias del proyecto (pandas, matplotlib, seaborn, jupyter)
-├── LICENSE                                     # Licencia MIT
-└── README.md                                   # Documentación del repositorio
+├── requirements.txt                         # Dependencias del proyecto (pandas, matplotlib, seaborn)
+├── LICENSE                                  # Licencia MIT
+└── README.md                                # Documentación del repositorio
 ```
 
 ---
@@ -112,56 +111,43 @@ analisis-quiebre-saldo-ecovida/
 
 ![KPIs del universo de quiebres de saldo](img/grafico_1.png)
 
-El panel de KPIs expone el total de líneas de pedido con ESTADO1=1 y ESTADO2=0, las unidades comprometidas y el valor total en pesos que permanece sin despachar, dimensionando el riesgo operacional y financiero real de Ecovida.
-
----
+El panel de indicadores cuantifica el total de líneas con quiebre activo, las unidades comprometidas y el monto total en pesos que permanece pendiente de despacho, estableciendo la magnitud real del problema para la dirección de operaciones.
 
 ### Sección 2 — Productos con Mayor Exposición
 
-![Pareto de productos por unidades y valor en quiebre](img/grafico_2.png)
+![Ranking de productos por unidades y valor en quiebre](img/grafico_2.png)
 
-La curva de Pareto confirma que un conjunto reducido de SKUs concentra el 80% de las unidades y del valor monetario en quiebre, definiendo con precisión dónde debe focalizarse la gestión de abastecimiento.
-
----
+El gráfico de barras ordenado por valor pendiente evidencia que un conjunto reducido de SKUs concentra la mayor parte del riesgo económico, validando la regla 80/20 y permitiendo focalizar las acciones de reabastecimiento en los productos de mayor impacto.
 
 ### Sección 3 — Clientes con Mayor Exposición
 
-![Ranking de clientes con mayor exposición a quiebres activos](img/grafico_3.png)
+![Ranking de clientes por saldo pendiente de despacho](img/grafico_3.png)
 
-El ranking evidencia que un grupo acotado de clientes acumula desproporcionadamente el saldo pendiente de despacho, identificando los vínculos comerciales con mayor riesgo de penalización o deterioro de relación.
+La visualización revela qué clientes acumulan desproporcionadamente el saldo sin despachar, identificando las cuentas donde el riesgo de relación comercial y de penalización contractual es más urgente de resolver.
 
----
+### Sección 4 — Evolución Temporal 2021-2025
 
-### Sección 4 — Evolución Temporal 2021–2025
+![Serie temporal mensual de quiebres de saldo](img/grafico_4.png)
 
-![Serie temporal mensual de quiebres 2021-2025](img/grafico_4.png)
+La serie de tiempo mensual permite distinguir si los quiebres responden a un deterioro estructural sostenido, a estacionalidad recurrente o a eventos puntuales de disrupción operacional, orientando el tipo de solución requerida.
 
-La serie temporal mensual permite determinar si los quiebres responden a un problema estructural creciente, a estacionalidad recurrente o a eventos operacionales puntuales que requieren planes de contingencia específicos.
+### Sección 5 — Heatmap de Estacionalidad
 
----
+![Heatmap de quiebres por mes y año 2021-2025](img/grafico_5.png)
 
-### Sección 5 — Estacionalidad por Mes y Año
-
-![Heatmap de estacionalidad mes x año](img/grafico_5.png)
-
-El heatmap revela si ciertos meses concentran sistemáticamente más quiebres a lo largo de los cuatro años analizados, habilitando una planificación preventiva de inventario y capacidad logística con base empírica.
-
----
-
-### Sección 6 — Síntesis Ejecutiva y Perfil de Riesgo Prioritario
-
-![Síntesis ejecutiva: perfil de riesgo prioritario](img/grafico_6.png)
-
-La síntesis cruza las tres dimensiones críticas — SKU de mayor impacto, cliente de alto valor y período de mayor frecuencia — para definir el perfil de riesgo que concentra el mayor impacto económico y operacional para la empresa.
+El heatmap expone con precisión qué combinaciones de mes y año concentran sistemáticamente la mayor frecuencia de quiebres, habilitando una planificación preventiva de inventario y logística basada en patrones históricos demostrables.
 
 ---
 
 ## Hallazgos Clave
 
-- **Concentración en productos:** Un número reducido de SKUs explica la mayor parte del valor comprometido en quiebre, lo que permite focalizar los esfuerzos de reposición y negociación con proveedores en un conjunto manejable de referencias críticas.
-- **Concentración en clientes:** Un grupo acotado de clientes acumula la mayor exposición a saldos pendientes, representando un riesgo contractual y de reputación comercial que requiere gestión prioritaria e individualizada.
-- **Patrón temporal identificable:** La evolución mensual revela períodos del año con frecuencia significativamente mayor de quiebres, lo que sugiere una componente estacional explotable para anticipar rupturas mediante ajustes preventivos en el plan de inventario.
-- **Riesgo financiero cuantificable:** El análisis convierte un problema operacional — líneas sin despachar — en un monto concreto en pesos, proporcionando al equipo directivo una métrica accionable para justificar inversiones en capacidad logística o stock de seguridad.
+- **Concentración en productos críticos:** Un número reducido de SKUs, probablemente dentro del portafolio de mayor rotación (galletas y biscuits), explica la mayor parte del valor monetario comprometido en quiebre, lo que implica que resolver el abastecimiento de esos productos tiene un efecto desproporcionado sobre el riesgo total.
+
+- **Exposición asimétrica en clientes:** Un grupo acotado de clientes concentra la mayoría del saldo pendiente activo; la gestión prioritaria de esas cuentas reduce la exposición comercial y financiera de forma inmediata sin necesidad de intervenir en toda la cartera.
+
+- **Quiebre con componente estacional identificable:** El análisis temporal multianual revela que ciertos meses del año presentan una concentración sistemáticamente superior de quiebres entre 2021 y 2025, lo que indica que parte del problema es predecible y puede anticiparse con ajustes de inventario previos a esos períodos.
+
+- **Riesgo financiero cuantificable y accionable:** La traducción de las unidades en quiebre a valor en pesos entrega a la dirección un número concreto para dimensionar el costo de oportunidad y priorizar inversión en capacidad de despacho o stock de seguridad, convirtiendo el análisis en una herramienta de decisión financiera directa.
 
 ---
 
